@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<!-- d3.js -->
+<head>
+    <script src="https://d3js.org/d3.v6.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <h1>Births in Illinois 2010-2021</h1>
+</head>
+
+
+
+<body>
+<div id="button">
+    <button onclick="window.location.href='https://a';">Top 12 Country</button>
+    <button onclick="window.location.href='https://b';">Top 10 States in U.S.</button>
+    <button onclick="window.location.href='https://c';">Births Count by Year in Illinois</button>
+</div>
+<div id="text">
+    <p1>unit, resource, start to dramatically drop after 2015.</p1>
+  
+</div>
+    <div class="input-group" style="width:70%;">
+        <span >Filtering option</span>
+        <input type="text" list="dropdown" id="input">
+        <datalist id="dropdown">
+            <option value="Total Birth"></option>
+            <option value="Male Birth"></option>
+            <option value="Female Birth"></option>
+        </datalist>
+        <button class="btn btn-primary" type="button" id="search" onclick="getChange()">search</button>
+    </div>
+    
+
+<!-- maybe some annotation -->
+
+<div id="my_dataviz"></div>
+
+<script>
+
+    async function getChange(){
+        input=document.getElementById('input').value;
+        if(input=="Total Birth"){
+            window.location.href='https://a';
+        }
+        else if(input=="Male Birth"){
+            window.location.href='https://b';
+        }
+        else{
+            window.location.href='https://c';
+        }
+    }
+    
+    // set the dimensions and margins of the graph
+    const margin = {top: 30, right: 30, bottom: 30, left: 60},
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+    
+    // append the svg object to the body of the page
+    const svg = d3.select("#my_dataviz")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+    
+    //Read the data
+    d3.csv("https://raw.githubusercontent.com/supia930/CS416-final-project/main/data/illinois_birth_year.csv",
+      
+    // formate the variable from csv file
+      function(d){
+        return { date : d.date, value : d.value }
+      }).then(
+    
+      function(data) {
+
+        // x axis
+        const x = d3.scaleLinear()
+          .domain([2010,2021])
+          .range([ 0, width ]);
+          svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+            svg.append("text") 
+            .attr("class", "x label")
+            .attr("text-anchor", "end")
+            .attr("x", width)
+            .attr("y", height - 6)
+            .text("year");
+
+        // y axis
+        const y = d3.scaleLinear()
+          .domain( [120, 170])
+          .range([ height, 0 ]);
+        svg.append("g")
+          .call(d3.axisLeft(y));
+
+
+        // line
+        svg.append("path")
+          .datum(data)
+          .attr("fill", "none")
+          .attr("stroke", "#69b3a2")
+          .attr("stroke-width", 3)
+          .attr("d", d3.line()
+            .x(d => x(d.date))
+            .y(d => y(d.value))
+            )
+
+        // points
+        svg
+          .append("g")
+          .selectAll("dot")
+          .data(data)
+          .join("circle")
+            .attr("cx", d => x(d.date))
+            .attr("cy", d => y(d.value))
+            .attr("r", 5)
+            .attr("fill", function (d) {
+            if (d.date >=2015) {
+                return "red"
+                console.log('red');
+            }
+            else {
+                return "#69b3a2"
+            }
+          })
+
+          // mouseover event
+            .on('mouseover', function(event, d){
+            tooltip
+            .style("opacity", 1)
+            .html("Year: " + d.date+ "<br>Births: "+d.value+'')
+            .style("left", (d3.pointer(event,this)[0]+90) + "px") 
+            .style("top", (d3.pointer(event,this)[1]+200) + "px")
+                console.log(d);
+            })
+            .on('mouseout',function(event, d){tooltip.style('opacity',0)})
+    })
+
+    // tooltip
+    var tooltip = d3.select("#my_dataviz")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("position", 'absolute')
+        .style('text-align','center')
+        .style('width','200px')
+        .style('height','40px')
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+    </script>
+</body>
+</html>

@@ -23,9 +23,6 @@
     <p1><br><br>The second page displays the trend of births in the United States during the past decade. <br><b>Click "Births Count by Year in Illinois" to narrow your search to Illinois births.</b></p1>
 </div>
 
-
-
-
 <!-- maybe some annotation -->
 
 <div class="annot">Although it increased somewhat in 2021, <br>the overall number of births in the United States has been steadily declining since 2014, <br>which is a worldwide trend among the developed countries.</div>
@@ -40,33 +37,31 @@
   }
 </style>
 
-<div id="my_dataviz"></div>
+<div id="myKeeper"></div>
 
 <script>
 
-
-    
-    // set the dimensions and margins of the graph
-    const margin = {top: 30, right: 30, bottom: 30, left: 60},
+    // dimmension setting
+    const margin = {top: 40, right: 30, bottom: 30, left: 60},
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
     
-    // append the svg object to the body of the page
-    const svg = d3.select("#my_dataviz")
+    
+    const svg = d3.select("#myKeeper")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
     
-    //Read the data
+    //Parse the data
     d3.csv("https://raw.githubusercontent.com/supia930/CS416-final-project/8a5aadbd2f66b7097f0048b0150356a36fef4d4b/data/US_birth_year.csv",
       
-    // formate the variable from csv file
+    // formatting
       function(d){
         return { date : d.date, value : d.value }
       }).then(
-    
+          
       function(data) {
 
         // x axis
@@ -76,12 +71,6 @@
           svg.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
-            svg.append("text") 
-            .attr("class", "x label")
-            .attr("text-anchor", "end")
-            .attr("x", width)
-            .attr("y", height - 6)
-            .text("year");
 
         // y axis
         const y = d3.scaleLinear()
@@ -89,14 +78,6 @@
           .range([ height, 0 ]);
           svg.append("g")
           .call(d3.axisLeft(y));
-          svg.append("text")
-        .attr("class", "y label")
-        .attr("text-anchor", "end")
-        .attr("y", 6)
-        .attr("dy", ".75em")
-        .attr("transform", "rotate(-90)")
-        .text("in million");
-
 
         // line
         svg.append("path")
@@ -120,8 +101,7 @@
             .attr("r", 5)
             .attr("fill", function (d) {
             if (d.date >=2014) {
-                return "MediumBlue"
-                console.log('MediumBlue');
+                return "Purple "
             }
             else {
                 return "#FFB6C1"
@@ -134,25 +114,26 @@
             .style("opacity", 1)
             .html("Year: " + d.date+ "<br>Births: "+d.value+'')
             .style("left", (d3.pointer(event,this)[0]+90) + "px") 
-            .style("top", (d3.pointer(event,this)[1]+200) + "px")
+            .style("top", (d3.pointer(event,this)[1]+230) + "px")
                 console.log(d);
             })
             .on('mouseout',function(event, d){tooltip.style('opacity',0)})
     })
 
     // tooltip
-    var tooltip = d3.select("#my_dataviz")
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("position", 'absolute')
-        .style('text-align','center')
-        .style('width','200px')
-        .style('height','40px')
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "1px")
-        .style("border-radius", "5px")
+    var tooltip = d3.select("#myKeeper")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position", 'absolute')
+      .style('text-align','center')
+      .style('width','200px')
+      .style('height','45px')
+      .style("background-color", "white")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "6px")
+
     </script>
 </body>
 </html>

@@ -48,7 +48,7 @@
   }
 </style>
 
-<div id="my_dataviz"></div>
+<div id="myKeeper"></div>
 
 <script>
 
@@ -63,12 +63,12 @@
     }
     
     // set the dimensions and margins of the graph
-    const margin = {top: 30, right: 30, bottom: 30, left: 60},
+    const margin = {top: 40, right: 30, bottom: 30, left: 60},
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
     
     // append the svg object to the body of the page
-    const svg = d3.select("#my_dataviz")
+    const svg = d3.select("#myKeeper")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -92,12 +92,6 @@
           svg.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
-            svg.append("text") 
-            .attr("class", "x label")
-            .attr("text-anchor", "end")
-            .attr("x", width)
-            .attr("y", height - 6)
-            .text("year");
 
         // y axis
         const y = d3.scaleLinear()
@@ -105,13 +99,6 @@
           .range([ height, 0 ]);
           svg.append("g")
           .call(d3.axisLeft(y));
-          svg.append("text")
-        .attr("class", "y label")
-        .attr("text-anchor", "end")
-        .attr("y", 10)
-        .attr("dy", ".75em")
-        .attr("transform", "rotate(-90)")
-        .text("in thousand");
 
 
         // line
@@ -136,8 +123,7 @@
             .attr("r", 5)
             .attr("fill", function (d) {
             if (d.date >=2014) {
-                return "MediumBlue"
-                console.log('MediumBlue');
+                return "Purple"
             }
             else {
                 return "#FFB6C1"
@@ -150,25 +136,26 @@
             .style("opacity", 1)
             .html("Year: " + d.date+ "<br>Births: "+d.value+'')
             .style("left", (d3.pointer(event,this)[0]+90) + "px") 
-            .style("top", (d3.pointer(event,this)[1]+200) + "px")
+            .style("top", (d3.pointer(event,this)[1]+250) + "px")
                 console.log(d);
             })
             .on('mouseout',function(event, d){tooltip.style('opacity',0)})
     })
 
     // tooltip
-    var tooltip = d3.select("#my_dataviz")
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("position", 'absolute')
-        .style('text-align','center')
-        .style('width','200px')
-        .style('height','40px')
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "1px")
-        .style("border-radius", "5px")
+    var tooltip = d3.select("#myKeeper")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position", 'absolute')
+      .style('text-align','center')
+      .style('width','200px')
+      .style('height','45px')
+      .style("background-color", "white")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "6px")
+
     </script>
 </body>
 </html>

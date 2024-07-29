@@ -6,7 +6,7 @@
 <head>
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <h1>Births in Illinois 2010-2021</h1>
+    <h1>Births in United States 2010-2021</h1>
 </head>
 
 
@@ -24,8 +24,9 @@
         <span >Filtering option</span>
         <input type="text" list="dropdown" id="input">
         <datalist id="dropdown">
-            <option value="Total Births"></option>
-            <option value="Births by age"></option>
+            <option value="Total Birth"></option>
+            <option value="Male Birth"></option>
+            <option value="Female Birth"></option>
         </datalist>
         <button class="btn btn-primary" type="button" id="search" onclick="getChange()">search</button>
     </div>
@@ -39,11 +40,14 @@
 
     async function getChange(){
         input=document.getElementById('input').value;
-        if(input=="Total Births"){
-            window.location.href='http://supia930.github.io/CS416-final-project/line_illinois.html';
+        if(input=="Total Birth"){
+            window.location.href='https://a';
+        }
+        else if(input=="Male Birth"){
+            window.location.href='https://b';
         }
         else{
-            window.location.href='http://supia930.github.io/CS416-final-project/example3.html';
+            window.location.href='https://c';
         }
     }
     
@@ -61,7 +65,7 @@
         .attr("transform", `translate(${margin.left},${margin.top})`);
     
     //Read the data
-    d3.csv("https://raw.githubusercontent.com/supia930/CS416-final-project/main/data/illinois_birth_year.csv",
+    d3.csv("https://raw.githubusercontent.com/supia930/CS416-final-project/8a5aadbd2f66b7097f0048b0150356a36fef4d4b/data/US_birth_year.csv",
       
     // formate the variable from csv file
       function(d){
@@ -86,7 +90,7 @@
 
         // y axis
         const y = d3.scaleLinear()
-          .domain( [120, 170])
+          .domain( [3.2, 4.3])
           .range([ height, 0 ]);
         svg.append("g")
           .call(d3.axisLeft(y));

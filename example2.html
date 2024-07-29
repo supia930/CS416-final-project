@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <title>Births by Age 2012-2021</title> -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        } */
+        .line {
+            fill: none;
+            stroke-width: 2px;
+        }
+        .legend {
+            font-size: 12px;
+        }
+        .axis-label {
+            font-size: 14px;
+        }
+        /* .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        } */
+    </style>
+  <h1>Births in Illinois 2010-2021</h1>
+</head>
+
+
+<body>
+    <!-- <h1 class="title">Births by Age in Illinois 2012-2021</h1> -->
+    <div id="chart"></div>
+
+    <script>
+        const data = [
+            { year: 2012, "<20": 12248, "20-24": 32059, "25-29": 43660, "30-34": 45150, "35-39": 20990, "40+": 5045 },
+            { year: 2013, "<20": 10634, "20-24": 31219, "25-29": 42520, "30-34": 45816, "35-39": 21648, "40+": 5081 },
+            { year: 2014, "<20": 9684, "20-24": 30962, "25-29": 43169, "30-34": 47183, "35-39": 22530, "40+": 4994 },
+            { year: 2015, "<20": 8806, "20-24": 30212, "25-29": 43357, "30-34": 47476, "35-39": 23155, "40+": 5084 },
+            { year: 2016, "<20": 7802, "20-24": 27930, "25-29": 42678, "30-34": 47421, "35-39": 23551, "40+": 5078 },
+            { year: 2017, "<20": 7161, "20-24": 26617, "25-29": 40920, "30-34": 45863, "35-39": 23850, "40+": 5021 },
+            { year: 2018, "<20": 6458, "20-24": 24506, "25-29": 39831, "30-34": 44861, "35-39": 24063, "40+": 5104 },
+            { year: 2019, "<20": 5948, "20-24": 23121, "25-29": 38082, "30-34": 43869, "35-39": 24032, "40+": 5092 },
+            { year: 2020, "<20": 5424, "20-24": 21395, "25-29": 35949, "30-34": 42462, "35-39": 23009, "40+": 5059 },
+            { year: 2021, "<20": 4500, "20-24": 19782, "25-29": 34191, "30-34": 42565, "35-39": 23604, "40+": 5087 }
+        ];
+
+        const margin = { top: 20, right: 100, bottom: 30, left: 50 },
+              width = 960 - margin.left - margin.right,
+              height = 500 - margin.top - margin.bottom;
+
+        const svg = d3.select("#chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        const x = d3.scaleLinear().domain([2012, 2021]).range([0, width]);
+        const y = d3.scaleLinear().domain([0, 50000]).range([height, 0]);
+
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        const line = d3.line()
+            .x(d => x(d.year))
+            .y(d => y(d.value));
+
+        const ageGroups = ["<20", "20-24", "25-29", "30-34", "35-39", "40+"];
+
+        ageGroups.forEach((group, i) => {
+            const groupData = data.map(d => ({ year: d.year, value: d[group] }));
+            svg.append("path")
+                .datum(groupData)
+                .attr("class", "line")
+                .attr("d", line)
+                .attr("stroke", color(i));
+        });
+
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).tickFormat(d3.format("d")))
+          .append("text")
+            .attr("class", "axis-label")
+            .attr("x", width)
+            .attr("y", -6)
+            .style("text-anchor", "end")
+            .text("Year");
+
+        svg.append("g")
+            .call(d3.axisLeft(y))
+          .append("text")
+            .attr("class", "axis-label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Number of Births");
+
+        const legend = svg.selectAll(".legend")
+            .data(ageGroups)
+          .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", (d, i) => "translate(50," + i * 20 + ")");
+
+        legend.append("rect")
+            .attr("x", width + 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", (d, i) => color(i));
+
+        legend.append("text")
+            .attr("x", width + 44)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text(d => d);
+    </script>
+</body>
+</html>

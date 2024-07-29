@@ -8,20 +8,33 @@
 
 <!-- http://supia930.github.io/CS416-final-project -->
 <h1>Birth Counts by Country in 2023</h1>
+
 <div id="button">
     <button onclick="window.location.href='http://supia930.github.io/CS416-final-project/bar_country.html';">Top 12 Births Country</button>
     <button onclick="window.location.href='http://supia930.github.io/CS416-final-project/line_US.html';">Births Count by Year in U.S.</button>
     <button onclick="window.location.href='http://supia930.github.io/CS416-final-project/line_illinois.html';">Births Count by Year in Illinois</button>
 </div>
+
 <div id="text">
-    <p1>The unit of data is in million. (1,000,000)</p1>
+    <p1><br>The unit of data is in million. (1,000,000)</p1>
     <p1><br>Data from database.earth https://database.earth/population/births/2023</p1>
-    <p1><br>The graph below shows the top 12 countries with the highest number of births in 2023. <br>Detailed data from each country can be found by mouse over the top of the bar.</p1>
-
-
+    <p1><br><br>The graph below shows the top 12 countries with the highest number of births in 2023. <br>Detailed data from each country can be found by mouse over the top of the bar.</p1>
+    <p1><br>The first page compares birth rates in the United States to those elsewhere in the world. <br><b>Click "Births Count by Year in U.S." to view the annual change in U.S. births.</b></p1>
 </div>
 
 <!-- Maybe some explanation -->
+
+<div class="annot">In 2023, the United States placed eighth in terms of global birth count.<br> Although this figure appears high, the number of births in the United States is constantly declining.</div>
+
+<style>
+  .annot {
+    position: absolute;
+    top: 520px;
+    left: 610px;
+    color: rgb(179, 0, 152);
+    transform: translate(-50%, -50%);
+  }
+</style>
 
 <div id="my_dataviz"></div>
 
@@ -85,10 +98,10 @@
         .attr("height", y.bandwidth())
         .attr("fill",function (d) {
             if (d.Country == 'United States') {
-                return "red"
+                return "MediumVioletRed"
             }
             else {
-                return 'pink'
+                return 'Pink'
             }
           })
 

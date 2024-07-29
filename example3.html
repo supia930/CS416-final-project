@@ -6,7 +6,7 @@
 <head>
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <h1>Births in Illinois by age group 2010-2021</h1>
+    <h1>Births in Illinois by age group from 2010 to 2021</h1>
 </head>
 
 <body>
@@ -16,8 +16,20 @@
     <button onclick="window.location.href='http://supia930.github.io/CS416-final-project/line_illinois.html';">Births Count by Year in Illinois</button>
 </div>
 <div id="text">
-    <p1>unit, resource, start to dramatically drop after 2015.</p1>
-</div>
+    <p1><br>Data from IDPH https://dph.illinois.gov/data-statistics/vital-statistics/birth-statistics.html</p1>
+    <p1><br><br>The graph below shows the number of births in the Illinois from 2010 to 2021 by various age group. <br>Detailed data from each year can be found by mouse over the top of the point.</p1>
+    <p1><br><br>This page displays the trend of births in the state of Illinois during the past decade by age group. </p1>
+    <p1><br><br><b>Legend  <br>navy: under 20;  orange: 20-24;  green: 25-29;  red: 30-34;  purple: 35-39;  brown: 40+</b><br></p1>
+  </div>
+
+  <!-- red : 30-34
+   green: 25-29
+   orange: 20-24
+   purple: 35-39
+   navy: <20
+   brown: 40+ -->
+
+
 <div class="input-group" style="width:70%;">
     <span>Filtering option</span>
     <input type="text" list="dropdown" id="input">
@@ -27,6 +39,19 @@
     </datalist>
     <button class="btn btn-primary" type="button" id="search" onclick="getChange()">search</button>
 </div>
+
+<div class="annot">The graph indicates that number of birth for all age groups are generally declining. <br>However, it is clear that the number of young adult births under the age of 29 is steadily dropping. <br>This can be linked to a social phenomena in which young adults delay marriage, resulting in a decline in births.</div>
+
+<style>
+  .annot {
+    position: absolute;
+    top: 550px;
+    left: 820px;
+    color: rgb(17, 0, 173);
+    transform: translate(-50%, -50%);
+  }
+</style>
+
 
 <div id="my_dataviz"></div>
 
@@ -42,6 +67,8 @@
     }
 
     const data = [
+        { year: 2010, "<20": 37321, "20-24": 14955, "25-29": 34227, "30-34": 45433, "35-39": 44342, "40+": 20945 },
+        { year: 2011, "<20": 35746, "20-24": 13160, "25-29": 32620, "30-34": 44468, "35-39": 44881, "40+": 21055 },
         { year: 2012, "<20": 12248, "20-24": 32059, "25-29": 43660, "30-34": 45150, "35-39": 20990, "40+": 5045 },
         { year: 2013, "<20": 10634, "20-24": 31219, "25-29": 42520, "30-34": 45816, "35-39": 21648, "40+": 5081 },
         { year: 2014, "<20": 9684, "20-24": 30962, "25-29": 43169, "30-34": 47183, "35-39": 22530, "40+": 4994 },

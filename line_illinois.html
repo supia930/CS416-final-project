@@ -6,7 +6,7 @@
 <head>
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <h1>Births in Illinois 2010-2021</h1>
+    <h1>Births in Illinois from 2010 to 2021</h1>
 </head>
 
 
@@ -17,11 +17,14 @@
   <button onclick="window.location.href='http://supia930.github.io/CS416-final-project/line_illinois.html';">Births Count by Year in Illinois</button>
 </div>
 <div id="text">
-    <p1>unit, resource, start to dramatically drop after 2015.</p1>
-  
+  <p1><br>The unit of data is in thousand. (1,000)</p1>
+  <p1><br>Data from IDPH https://dph.illinois.gov/data-statistics/vital-statistics/birth-statistics.html</p1>
+  <p1><br><br>The graph below shows the number of births in the Illinois from 2010 to 2021. <br>Detailed data from each year can be found by mouse over the top of the point.</p1>
+  <p1><br><br>The second page displays the trend of births in the state of Illinois during the past decade. <br><b>Play with filtering opction for more information.</b></p1>
 </div>
+
     <div class="input-group" style="width:70%;">
-        <span >Filtering option</span>
+        <span >Filter</span>
         <input type="text" list="dropdown" id="input">
         <datalist id="dropdown">
             <option value="Total Births"></option>
@@ -32,6 +35,18 @@
     
 
 <!-- maybe some annotation -->
+
+<div class="annot">The number of births in Illinois has clearly and significantly decreased since 2014. <br>This is consistent with the birth trends in the United States.</div>
+
+<style>
+  .annot {
+    position: absolute;
+    top: 610px;
+    left: 500px;
+    color: rgb(17, 0, 173);
+    transform: translate(-50%, -50%);
+  }
+</style>
 
 <div id="my_dataviz"></div>
 
@@ -88,15 +103,22 @@
         const y = d3.scaleLinear()
           .domain( [120, 170])
           .range([ height, 0 ]);
-        svg.append("g")
+          svg.append("g")
           .call(d3.axisLeft(y));
+          svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "end")
+        .attr("y", 10)
+        .attr("dy", ".75em")
+        .attr("transform", "rotate(-90)")
+        .text("in thousand");
 
 
         // line
         svg.append("path")
           .datum(data)
           .attr("fill", "none")
-          .attr("stroke", "#69b3a2")
+          .attr("stroke", "#FFB6C1")
           .attr("stroke-width", 3)
           .attr("d", d3.line()
             .x(d => x(d.date))
@@ -113,12 +135,12 @@
             .attr("cy", d => y(d.value))
             .attr("r", 5)
             .attr("fill", function (d) {
-            if (d.date >=2015) {
-                return "red"
-                console.log('red');
+            if (d.date >=2014) {
+                return "MediumBlue"
+                console.log('MediumBlue');
             }
             else {
-                return "#69b3a2"
+                return "#FFB6C1"
             }
           })
 
